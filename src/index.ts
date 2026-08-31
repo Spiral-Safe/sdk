@@ -30,6 +30,7 @@ export interface CeremonyResponse {
 export interface WalletResponse {
   address?: string;
   pubKey?: string;
+  operation?: SigningOperation;
   encodedTX?: string;
   signature?: string;
   [key: string]: unknown;
@@ -115,10 +116,12 @@ export class SpiralSafeSDK {
     ceremonyId: string,
     credential: Record<string, unknown>,
     chain?: SpiralSafeChain,
+    operation: SigningOperation = "transaction",
   ): Promise<WalletResponse> {
     return this.post("/complete", {
       ...this.identity(username, chain),
       ceremonyId,
+      operation,
       credential,
     });
   }

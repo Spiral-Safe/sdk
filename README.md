@@ -59,6 +59,8 @@ const signed = await spiralSafe.complete(
   "alice",
   begin.ceremonyId,
   serializeAuthenticationCredential(assertion),
+  "solana",
+  "transaction", // use "message" for message-signing ceremonies
 );
 ```
 
@@ -72,9 +74,11 @@ the complete conversion and Wallet Standard implementation.
 - `create(username, ceremonyId, credential, chain?)` — finish registration.
 - `check(username, chain?)` — return the tenant/chain-local wallet address.
 - `signin({ username, chain?, operation?, payload })` — start authorization.
-- `complete(username, ceremonyId, credential, chain?)` — finish authorization
-  and return `encodedTX` (Solana transaction) or `signature` (messages and
-  Ethereum EIP-191 messages).
+- `complete(username, ceremonyId, credential, chain?, operation?)` — finish
+  authorization and return `encodedTX` (Solana transaction) or `signature`
+  (messages and Ethereum EIP-191 messages). `operation` defaults to
+  `transaction`; message callers must pass `message` so the service can compare
+  it with Vault's stored ceremony operation before releasing output.
 
 Non-success responses throw `SpiralSafeAPIError` with `status`, `code`, and the
 service `requestId` when available.

@@ -43,7 +43,30 @@ test("pairs ceremony IDs with completion requests", async () => {
   await sdk.complete("alice", "x".repeat(32), { id: "credential" });
   assert.equal(body.ceremonyId, "x".repeat(32));
   assert.equal(body.chain, "solana");
+  assert.equal(body.operation, "transaction");
   assert.deepEqual(body.credential, { id: "credential" });
+});
+
+test("pairs message completions with their requested operation", async () => {
+  let body;
+  const sdk = new SpiralSafeSDK({
+    apiToken: "tenant-token",
+    chain: "ethereum",
+    fetchImplementation: async (_url, init) => {
+      body = JSON.parse(init.body);
+      return jsonResponse({ address: "wallet", operation: "message" });
+    },
+  });
+
+  await sdk.complete(
+    "alice",
+    "m".repeat(32),
+    { id: "credential" },
+    "ethereum",
+    "message",
+  );
+  assert.equal(body.chain, "ethereum");
+  assert.equal(body.operation, "message");
 });
 
 test("encodes byte signing payloads", async () => {
