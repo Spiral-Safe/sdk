@@ -3,18 +3,23 @@
   "version": "0.1.0",
   "main": "dist/index.bundle.js",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "test": "npm run build && node --test tests/*.test.js"
   },
   "types": "dist/index.d.ts",
   "author": "",
   "license": "ISC",
   "description": "",
+  "overrides": {
+    "ajv": "8.18.0",
+    "picomatch": "2.3.2"
+  },
   "dependencies": {
     "cross-fetch": "^4.0.0"
   },
   "devDependencies": {
-    "ts-loader": "^9.5.1",
-    "webpack": "^5.96.1",
-    "webpack-cli": "^5.1.4"
+    "ts-loader": "^9.6.2",
+    "webpack": "^5.110.2",
+    "webpack-cli": "^7.2.3"
   }
 }

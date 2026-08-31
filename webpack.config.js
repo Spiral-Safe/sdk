@@ -9,6 +9,7 @@ module.exports = {
     library: 'SpiralSafeSDK',
     libraryTarget: 'umd',
     umdNamedDefine: true,
+    globalObject: 'globalThis',
   },
   resolve: {
     extensions: ['.ts', '.js', '.d.ts'],
